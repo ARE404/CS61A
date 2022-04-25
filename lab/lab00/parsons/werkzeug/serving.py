@@ -1039,7 +1039,7 @@ def run_simple(
 
         application = DebuggedApplication(application, evalex=use_evalex)
 
-    if not is_running_from_reloader():
+    if is_running_from_reloader():
         s = prepare_socket(hostname, port)
         fd = s.fileno()
         os.environ["WERKZEUG_SERVER_FD"] = str(fd)

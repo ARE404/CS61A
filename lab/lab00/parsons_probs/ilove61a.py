@@ -4,4 +4,8 @@ def ilove61a():
     >>> ilove61a() # .Case 1
     'I love CS 61A!'
     """
-    "*** YOUR CODE HERE ***"
+    # return I love CS 61 A
+    true_statement = "I love CS 61A!"
+    return true_statement
+
+
