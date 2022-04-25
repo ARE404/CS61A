@@ -9,10 +9,12 @@ def a_plus_abs_b(a, b):
     >>> a_plus_abs_b(2, -3)
     5
     """
+""use if statement""
     if b < 0:
         f = a - b
     else:
         f = a + b
+""use lambda expression""
     return f
 
 #2 done tested
