@@ -1,12 +1,20 @@
 {
     "name": "Lab 0",
-    "endpoint": "cal/cs61a/sp18/lab00",
+    "endpoint": "cal/cs61a/sp22/lab00",
     "src": [
-        "lab00.py"
+        "lab00.py",
+        "parsons_probs/ilove61a.py"
     ],
     "tests": {
-        "lab00.py:twenty_eighteen": "doctest"
+        "lab*.py": "doctest",
+        "tests/*.py": "ok_test",
+        "parsons_probs/ilove61a.py:ilove61a": "doctest"
     },
+    "default_tests": [
+        "twenty_twenty_two",
+        "python-basics",
+        "ilove61a"
+    ],
     "protocols": [
         "restore",
         "file_contents",
@@ -14,5 +22,12 @@
         "unlock",
         "grading",
         "backup"
-    ]
+    ],
+    "parsons": {
+        "ilove61a": {
+            "required": [
+                "ilove61a"
+            ]
+        }
+    }
 }
