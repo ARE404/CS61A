@@ -1,27 +1,27 @@
 {
     "name": "Lab 1",
-    "endpoint": "cal/cs61a/sp18/lab01",
+    "endpoint": "cal/cs61a/sp22/lab01",
     "src": [
         "lab01.py",
-        "lab01_extra.py"
+        "parsons_probs/digit_pos_match.py",
+        "parsons_probs/add_in_range.py",
+        "parsons_probs/k_occurrence.py"
     ],
     "tests": {
-        "tests/truthiness.py": "ok_test",
-        "tests/short_circuiting.py": "ok_test",
-        "lab01_extra.py:both_positive": "doctest",
-        "tests/what_if.py": "ok_test",
-        "tests/loops.py": "ok_test",
-        "lab01_extra.py:falling": "doctest",
-        "lab01.py:repeated": "doctest",
-        "lab01.py:sum_digits": "doctest",
-        "lab01.py:double_eights": "doctest"
+        "lab*.py": "doctest",
+        "tests/*.py": "ok_test",
+        "parsons_probs/k_occurrence.py:k_occurrence": "doctest",
+        "parsons_probs/digit_pos_match.py:digit_pos_match": "doctest",
+        "parsons_probs/add_in_range.py:add_in_range": "doctest"
     },
     "default_tests": [
-        "short_circuiting",
-        "loops",
-        "repeated",
+        "control",
+        "short-circuit",
+        "debugging-quiz",
+        "falling",
         "sum_digits",
-        "double_eights"
+        "digit_pos_match",
+        "add_in_range"
     ],
     "protocols": [
         "restore",
@@ -30,5 +30,20 @@
         "unlock",
         "grading",
         "backup"
-    ]
+    ],
+    "parsons": {
+        "sum digits": {
+            "required": [
+                "digit_pos_match"
+            ],
+            "optional": [
+                "k_occurrence"
+            ]
+        },
+        "falling factorial": {
+            "required": [
+                "add_in_range"
+            ]
+        }
+    }
 }
