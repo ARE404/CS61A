@@ -1,6 +1,7 @@
+from ast import For
 from operator import add, sub
 
-#1 done tested
+
 def a_plus_abs_b(a, b):
     """Return a+abs(b), but without calling abs.
 
@@ -8,30 +9,56 @@ def a_plus_abs_b(a, b):
     5
     >>> a_plus_abs_b(2, -3)
     5
+    >>> a_plus_abs_b(-1, 4)
+    3
+    >>> a_plus_abs_b(-1, -4)
+    3
     """
     if b < 0:
-        f = a - b
+        f = lambda a, b: a-b
     else:
-        f = a + b
-    return f
+        f = lambda a, b: a+b
+    return f(a, b)
 
-#2 done tested
-def two_of_three(a, b, c):
-    """Return x*x + y*y, where x and y are the two largest members of the
-    positive numbers a, b, and c.
+
+def a_plus_abs_b_syntax_check():
+    """Check that you didn't change the return statement of a_plus_abs_b.
+
+    >>> # You aren't expected to understand the code of this test.
+    >>> import inspect, re
+    >>> re.findall(r'^\s*(return .*)', inspect.getsource(a_plus_abs_b), re.M)
+    ['return f(a, b)']
+    """
+    # You don't need to edit this function. It's just here to check your work.
+
+
+def two_of_three(i, j, k):
+    """Return m*m + n*n, where m and n are the two smallest members of the
+    positive numbers i, j, and k.
 
     >>> two_of_three(1, 2, 3)
-    13
+    5
     >>> two_of_three(5, 3, 1)
-    34
+    10
     >>> two_of_three(10, 2, 8)
-    164
+    68
     >>> two_of_three(5, 5, 5)
     50
     """
-    return max(a, b)*max(a, b) + max(b, c)*max(b, c)
+    return pow(min(i, j, k), 2)+pow(max(min(i, j), min(j, k), min(i, k)), 2)
 
-#3 done tested
+
+def two_of_three_syntax_check():
+    """Check that your two_of_three code consists of nothing but a return statement.
+
+    >>> # You aren't expected to understand the code of this test.
+    >>> import inspect, ast
+    >>> [type(x).__name__ for x in ast.parse(inspect.getsource(two_of_three)).body[0].body]
+    ['Expr', 'Return']
+    """
+    # You don't need to edit this function. It's just here to check your work.
+
+
 def largest_factor(n):
     """Return the largest factor of n that is smaller than n.
 
@@ -42,83 +69,12 @@ def largest_factor(n):
     >>> largest_factor(13) # factor is 1 since 13 is prime
     1
     """
+    "*** YOUR CODE HERE ***"
     i = 1
-    larger_factor = 0
-    while i < n:
-        if(n % i == 0):
-            larger_factor = i
+    largest = 0
+    while(i != n):
+        if n % i == 0:
+            largest=i
+        
         i = i + 1
-    return larger_factor
-
-#4 done tested
-# I don't get it, I need to think more of it
-def if_function(condition, true_result, false_result):
-    """Return true_result if condition is a true value, and
-    false_result otherwise.
-
-    >>> if_function(True, 2, 3)
-    2
-    >>> if_function(False, 2, 3)
-    3
-    >>> if_function(3==2, 3+2, 3-2)
-    1
-    >>> if_function(3>2, 3+2, 3-2)
-    5
-    """
-    if condition:
-        return true_result
-    else:
-        return false_result
-
-
-def with_if_statement():
-    """
-    >>> with_if_statement()
-    1
-    """
-    if c():
-        return t()
-    else:
-        return f()
-
-def with_if_function():
-    return if_function(c(), t(), f())
-
-def c():
-    return 1
-
-def t():
-    print(1)
-
-def f():
-    print(0)
-
-#5 done tested
-def hailstone(n):
-    """Print the hailstone sequence starting at n and return its
-    length.
-
-    >>> a = hailstone(10)
-    10
-    5
-    16
-    8
-    4
-    2
-    1
-    >>> a
-    7
-    """
-    stepnum = 0
-    while(n > 1):
-        print(n)
-        if((n % 2) == 0):
-            n = n // 2
-        else:
-            n = n * 3 + 1
-        stepnum = stepnum + 1
-    stepnum = stepnum + 1   #personally thought without this line would be nicer, the docstr a should be 6
-    print(n)
-    return stepnum
-
-# done tested
+    return largest
