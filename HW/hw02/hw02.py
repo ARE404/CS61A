@@ -32,6 +32,20 @@ def hailstone(n):
     1
     """
     "*** YOUR CODE HERE ***"
+    length=0
+    while True:
+        if n==1:
+            print(1)
+            return length+1
+        print(n)
+        length+=1
+        if n%2==0:
+            n//=2
+        elif n%2!=0:
+            n=n*3+1
+        
+    
+        
 
 
 def product(n, term):
@@ -54,6 +68,11 @@ def product(n, term):
     162
     """
     "*** YOUR CODE HERE ***"
+    sum=1
+    while n!=0:
+        sum*=term(n)
+        n-=1
+    return sum
 
 
 def accumulate(merger, start, n, term):
@@ -81,6 +100,17 @@ def accumulate(merger, start, n, term):
     16
     """
     "*** YOUR CODE HERE ***"
+    
+    if n==0:
+        return start
+    total=merger(start,term(n))
+    if total==0 & start==0:
+        total=merger(1,term(n))
+    n-=1 
+    while n!=0:
+        total=merger(total,term(n))
+        n-=1
+    return total
 
 
 def summation_using_accumulate(n, term):
@@ -97,7 +127,7 @@ def summation_using_accumulate(n, term):
     >>> [type(x).__name__ for x in ast.parse(inspect.getsource(summation_using_accumulate)).body[0].body]
     ['Expr', 'Return']
     """
-    "*** YOUR CODE HERE ***"
+    return accumulate(add,0,n,term)
 
 
 def product_using_accumulate(n, term):
@@ -114,4 +144,4 @@ def product_using_accumulate(n, term):
     >>> [type(x).__name__ for x in ast.parse(inspect.getsource(product_using_accumulate)).body[0].body]
     ['Expr', 'Return']
     """
-    "*** YOUR CODE HERE ***"
+    return accumulate(mul,0,n,term)
