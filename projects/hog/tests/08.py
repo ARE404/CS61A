@@ -5,16 +5,17 @@ test = {
     {
       'cases': [
         {
-          'answer': '5eaa55d4501ab70024842f25d9ae70c4',
+          'answer': '562542d6415ecc5c5253297f5be4bea1',
           'choices': [
+            'It contains a nested function',
+            'It calls a function that is not itself',
             'It takes in a function as an argument',
-            'It returns a function',
-            'It both takes in a function as an argument and returns a function',
             'It uses the *args keyword'
           ],
           'hidden': False,
           'locked': True,
-          'question': 'What makes make_averaged a higher order function?'
+          'multiline': False,
+          'question': 'What is one reason that make_averaged is a higher order function?'
         },
         {
           'answer': '159f99fb0e6b0dae968c6b227fa282ee',
@@ -25,6 +26,7 @@ test = {
           ],
           'hidden': False,
           'locked': True,
+          'multiline': False,
           'question': 'How many arguments does the function passed into make_averaged take?'
         }
       ],
@@ -43,7 +45,8 @@ test = {
           # locked
           """,
           'hidden': False,
-          'locked': True
+          'locked': True,
+          'multiline': False
         },
         {
           'code': r"""
@@ -56,7 +59,8 @@ test = {
           # locked
           """,
           'hidden': False,
-          'locked': True
+          'locked': True,
+          'multiline': False
         }
       ],
       'scored': True,
@@ -80,7 +84,30 @@ test = {
           50.0
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
+        },
+        {
+          'code': r"""
+          >>> dice = make_test_dice(3, 1, 5, 6)
+          >>> averaged_roll_dice = make_averaged(roll_dice, 1)
+          >>> averaged_roll_dice(2, dice)
+          1.0
+          """,
+          'hidden': False,
+          'locked': False,
+          'multiline': False
+        },
+        {
+          'code': r"""
+          >>> dice = make_test_dice(3, 1, 5, 6)
+          >>> averaged_roll_dice = make_averaged(roll_dice, 5)
+          >>> averaged_roll_dice(2, dice)
+          5.0
+          """,
+          'hidden': False,
+          'locked': False,
+          'multiline': False
         }
       ],
       'scored': True,
