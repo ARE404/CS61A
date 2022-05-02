@@ -154,8 +154,7 @@ def silence(score0, score1, leader=None):
     return leader, None
 
 
-def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
-         goal=GOAL_SCORE, say=silence):
+def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided, goal=GOAL_SCORE, say=silence):
     """Simulate a game and return the final scores of both players, with Player
     0's score first, and Player 1's score second.
 
@@ -174,7 +173,19 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     leader = None  # To be used in problem 7
     # BEGIN PROBLEM 5
-    "*** YOUR CODE HERE ***"
+    while (score0<goal)&(score1<goal):
+        if who==0:
+            print('DEBUG:score0 for once',score0)
+            score0+=take_turn(strategy0(score0,score1),score0,score1,dice,goal)
+            score0+=hog_pile(score0,score1)
+            print('DEBUG:score0 finished',score0)
+        else:
+            print('DEBUG:score1 for once',score1)
+            score1+=take_turn(strategy1(score1,score0),score1,score0,dice,goal)
+            score1+=hog_pile(score1,score0)
+            print('DEBUG:score1 finished',score1)
+        
+        who=next_player(who)
     # END PROBLEM 5
     # (note that the indentation for the problem 7 prompt (***YOUR CODE HERE***) might be misleading)
     # BEGIN PROBLEM 7
