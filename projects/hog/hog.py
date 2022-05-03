@@ -28,6 +28,7 @@ def roll_dice(num_rolls, dice=six_sided):
 
     while num_rolls!=0:
         outcome=dice()
+        #print('DEBUG:dice outcome:',outcome)
         total+=outcome
         if outcome==1:
             sowsad=True
@@ -184,12 +185,14 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided, goal=GOAL_SCO
             score1+=take_turn(strategy1(score1,score0),score1,score0,dice,goal)
             score1+=hog_pile(score1,score0)
             print('DEBUG:score1 finished',score1)
-        
+        print('DEBUG:finished a turn')
         who=next_player(who)
     # END PROBLEM 5
     # (note that the indentation for the problem 7 prompt (***YOUR CODE HERE***) might be misleading)
     # BEGIN PROBLEM 7
-    "*** YOUR CODE HERE ***"
+        leader,message=say(score0,score1,leader)
+        if (message!=None)&(message!=""):
+            print(message)
     # END PROBLEM 7
     return score0, score1
 
@@ -326,7 +329,18 @@ def make_averaged(original_function, total_samples=1000):
     3.0
     """
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    def averagedfunc(*args,total_samples=total_samples):
+        total=0
+        print('DEBUG:totalsample used is',total_samples)
+        times=total_samples # since we need to divide at return statement, can't use total_samples as countvar directly
+        if times==0:
+            return 0
+        else:
+            while times>0:
+                total+=original_function(*args)
+                times-=1
+            return total/total_samples
+    return averagedfunc
     # END PROBLEM 8
 
 
@@ -340,7 +354,22 @@ def max_scoring_num_rolls(dice=six_sided, total_samples=1000):
     1
     """
     # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
+    dice_num=1
+    lowest_option=1
+    highest_score=0
+    averaged_function=make_averaged(roll_dice,total_samples)
+    while dice_num<11:
+        print('DEBUG:now dice_num is',dice_num)
+        outcome=averaged_function(dice_num,dice)
+        print('DEBUG:out come',outcome)
+        if outcome>highest_score:
+            highest_score=outcome
+            print('DEBUG:highestscore change to ',highest_score)
+            lowest_option=max(lowest_option,dice_num)
+            print('DEBUG:lowest change to',lowest_option)
+            print('DEBUG:----------------------')
+        dice_num+=1
+    return lowest_option
     # END PROBLEM 9
 
 
@@ -381,7 +410,11 @@ def hefty_hogs_strategy(score, opponent_score, threshold=8, num_rolls=6):
     returns NUM_ROLLS otherwise.
     """
     # BEGIN PROBLEM 10
-    return 6  # Remove this line once implemented.
+    outcome=hefty_hogs(score,opponent_score)
+    if outcome>=threshold:
+        return 0
+    else:
+        return num_rolls
     # END PROBLEM 10
 
 
@@ -391,7 +424,14 @@ def hog_pile_strategy(score, opponent_score, threshold=8, num_rolls=6):
     Otherwise, it returns NUM_ROLLS.
     """
     # BEGIN PROBLEM 11
-    return 6  # Remove this line once implemented.
+    outcome=hefty_hogs(score,opponent_score)
+    if (((score+outcome)%10)==(opponent_score%10))&(opponent_score%10):
+        #can't have lastdigit 0 case, cause there is no additional points
+        return 0
+    elif outcome>=threshold:
+        return 0
+    else:
+        return num_rolls
     # END PROBLEM 11
 
 
