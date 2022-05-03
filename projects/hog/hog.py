@@ -223,7 +223,44 @@ def announce_lead_changes(score0, score1, last_leader=None):
     Player 0 takes the lead by 2
     """
     # BEGIN PROBLEM 6
-    "*** YOUR CODE HERE ***"
+    '''
+    if last_leader==None:
+        last_leader=int(score1>score0)
+        diff=max(score1,score0)
+        print('DEBUG:change leader from None to',last_leader)
+        if last_leader:
+            return 1,"Player 1 takes the lead by "+str(diff)
+        else:
+            return 0,"Player 0 takes the lead by "+str(diff) 
+    elif score0==score1:
+        return None,None
+    elif (score0>score1)&(last_leader==1):
+        diff=score0-score1
+        print('DEBUG:change leader from 1 to 0, get',diff)
+        return 0,"Player 0 takes the lead by "+str(diff)
+    elif (score1>score0)&(last_leader==0):
+        diff=score1-score0
+        print('DEBUG:change leader from 0 to 1, get',diff)
+        return 1,"Player 1 takes the lead by "+str(diff)
+    print('DEBUG:nothing changed')
+    return last_leader,None
+    '''
+    # check score situation and calculate diff
+    if score0==score1:
+        return None,None
+    elif score0>score1:
+        current_leader=0
+        current_follower=1
+        diff=score0-score1
+    elif score1>score0:
+        current_leader=1
+        current_follower=0
+        diff=score1-score0
+    # check if there is a change in leader
+    if current_leader!=last_leader:
+        return current_leader,"Player "+str(current_leader)+" takes the lead by "+str(diff)
+    else:
+        return last_leader,None
     # END PROBLEM 6
 
 
