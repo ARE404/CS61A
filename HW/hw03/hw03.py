@@ -1,231 +1,161 @@
-HW_SOURCE_FILE = 'hw03.py'
 
-#############
-# Questions #
-#############
+HW_SOURCE_FILE = __file__
 
-def has_seven(k):
-    """Returns True if at least one of the digits of k is a 7, False otherwise.
 
-    >>> has_seven(3)
-    False
-    >>> has_seven(7)
-    True
-    >>> has_seven(2734)
-    True
-    >>> has_seven(2634)
-    False
-    >>> has_seven(734)
-    True
-    >>> has_seven(7777)
-    True
-    >>> from construct_check import check
-    >>> check(HW_SOURCE_FILE, 'has_seven',
-    ...       ['Assign', 'AugAssign'])
-    True
-    """
-    "*** YOUR CODE HERE ***"
+def num_eights(pos):
+    """Returns the number of times 8 appears as a digit of pos.
 
-def summation(n, term):
-
-    """Return the sum of the first n terms in the sequence defined by term.
-    Implement using recursion!
-
-    >>> summation(5, lambda x: x * x * x) # 1^3 + 2^3 + 3^3 + 4^3 + 5^3
-    225
-    >>> summation(9, lambda x: x + 1) # 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10
-    54
-    >>> summation(5, lambda x: 2**x) # 2^1 + 2^2 + 2^3 + 2^4 + 2^5
-    62
-    >>> # Do not use while/for loops!
-    >>> from construct_check import check
-    >>> check(HW_SOURCE_FILE, 'summation',
-    ...       ['While', 'For'])
-    True
-    """
-    assert n >= 1
-    "*** YOUR CODE HERE ***"
-
-def square(x):
-    return x * x
-
-def identity(x):
-    return x
-
-triple = lambda x: 3 * x
-
-increment = lambda x: x + 1
-
-add = lambda x, y: x + y
-
-mul = lambda x, y: x * y
-
-def accumulate(combiner, base, n, term):
-    """Return the result of combining the first n terms in a sequence and base.
-    The terms to be combined are term(1), term(2), ..., term(n).  combiner is a
-    two-argument commutative function.
-
-    >>> accumulate(add, 0, 5, identity)  # 0 + 1 + 2 + 3 + 4 + 5
-    15
-    >>> accumulate(add, 11, 5, identity) # 11 + 1 + 2 + 3 + 4 + 5
-    26
-    >>> accumulate(add, 11, 0, identity) # 11
-    11
-    >>> accumulate(add, 11, 3, square)   # 11 + 1^2 + 2^2 + 3^2
-    25
-    >>> accumulate(mul, 2, 3, square)   # 2 * 1^2 * 2^2 * 3^2
-    72
-    """
-    "*** YOUR CODE HERE ***"
-
-def summation_using_accumulate(n, term):
-    """Returns the sum of term(1) + ... + term(n). The implementation
-    uses accumulate.
-
-    >>> summation_using_accumulate(5, square)
-    55
-    >>> summation_using_accumulate(5, triple)
-    45
-    >>> from construct_check import check
-    >>> check(HW_SOURCE_FILE, 'summation_using_accumulate',
-    ...       ['Recursion', 'For', 'While'])
-    True
-    """
-    "*** YOUR CODE HERE ***"
-
-def product_using_accumulate(n, term):
-    """An implementation of product using accumulate.
-
-    >>> product_using_accumulate(4, square)
-    576
-    >>> product_using_accumulate(6, triple)
-    524880
-    >>> from construct_check import check
-    >>> check(HW_SOURCE_FILE, 'product_using_accumulate',
-    ...       ['Recursion', 'For', 'While'])
-    True
-    """
-    "*** YOUR CODE HERE ***"
-
-def filtered_accumulate(combiner, base, pred, n, term):
-    """Return the result of combining the terms in a sequence of N terms
-    that satisfy the predicate pred. combiner is a two-argument function.
-    If v1, v2, ..., vk are the values in term(1), term(2), ..., term(N)
-    that satisfy pred, then the result is
-         base combiner v1 combiner v2 ... combiner vk
-    (treating combiner as if it were a binary operator, like +). The
-    implementation uses accumulate.
-
-    >>> filtered_accumulate(add, 0, lambda x: True, 5, identity)  # 0 + 1 + 2 + 3 + 4 + 5
-    15
-    >>> filtered_accumulate(add, 11, lambda x: False, 5, identity) # 11
-    11
-    >>> filtered_accumulate(add, 0, odd, 5, identity)   # 0 + 1 + 3 + 5
-    9
-    >>> filtered_accumulate(mul, 1, greater_than_5, 5, square)  # 1 * 9 * 16 * 25
-    3600
-    >>> # Do not use while/for loops or recursion
-    >>> from construct_check import check
-    >>> check(HW_SOURCE_FILE, 'filtered_accumulate',
-    ...       ['While', 'For', 'Recursion'])
-    True
-    """
-    def combine_if(x, y):
-        "*** YOUR CODE HERE ***"
-    return accumulate(combine_if, base, n, term)
-
-def odd(x):
-    return x % 2 == 1
-
-def greater_than_5(x):
-    return x > 5
-
-def make_repeater(f, n):
-    """Return the function that computes the nth application of f.
-
-    >>> add_three = make_repeater(increment, 3)
-    >>> add_three(5)
-    8
-    >>> make_repeater(triple, 5)(1) # 3 * 3 * 3 * 3 * 3 * 1
-    243
-    >>> make_repeater(square, 2)(5) # square(square(5))
-    625
-    >>> make_repeater(square, 4)(5) # square(square(square(square(5))))
-    152587890625
-    >>> make_repeater(square, 0)(5)
-    5
-    """
-    "*** YOUR CODE HERE ***"
-
-def compose1(f, g):
-    """Return a function h, such that h(x) = f(g(x))."""
-    def h(x):
-        return f(g(x))
-    return h
-
-###################
-# Extra Questions #
-###################
-
-quine = """
-"*** YOUR CODE HERE ***"
-"""
-
-def zero(f):
-    return lambda x: x
-
-def successor(n):
-    return lambda f: lambda x: f(n(f)(x))
-
-def one(f):
-    """Church numeral 1: same as successor(zero)"""
-    "*** YOUR CODE HERE ***"
-
-def two(f):
-    """Church numeral 2: same as successor(successor(zero))"""
-    "*** YOUR CODE HERE ***"
-
-three = successor(two)
-
-def church_to_int(n):
-    """Convert the Church numeral n to a Python integer.
-
-    >>> church_to_int(zero)
+    >>> num_eights(3)
     0
-    >>> church_to_int(one)
+    >>> num_eights(8)
     1
-    >>> church_to_int(two)
-    2
-    >>> church_to_int(three)
-    3
-    """
-    "*** YOUR CODE HERE ***"
-
-def add_church(m, n):
-    """Return the Church numeral for m + n, for Church numerals m and n.
-
-    >>> church_to_int(add_church(two, three))
-    5
-    """
-    "*** YOUR CODE HERE ***"
-
-def mul_church(m, n):
-    """Return the Church numeral for m * n, for Church numerals m and n.
-
-    >>> four = successor(three)
-    >>> church_to_int(mul_church(two, three))
-    6
-    >>> church_to_int(mul_church(three, four))
-    12
-    """
-    "*** YOUR CODE HERE ***"
-
-def pow_church(m, n):
-    """Return the Church numeral m ** n, for Church numerals m and n.
-
-    >>> church_to_int(pow_church(two, three))
+    >>> num_eights(88888888)
     8
-    >>> church_to_int(pow_church(three, two))
-    9
+    >>> num_eights(2638)
+    1
+    >>> num_eights(86380)
+    2
+    >>> num_eights(12345)
+    0
+    >>> from construct_check import check
+    >>> # ban all assignment statements
+    >>> check(HW_SOURCE_FILE, 'num_eights',
+    ...       ['Assign', 'AnnAssign', 'AugAssign', 'NamedExpr'])
+    True
     """
-    "*** YOUR CODE HERE ***"
+    #end cases
+    if pos==8:
+        return 1
+    elif pos<10:
+        return 0
+
+    if pos%10==8:
+        return num_eights(pos//10)+1
+
+    return num_eights(pos//10) 
+
+""" def pingpong_downside(n):
+    if n==0:
+        return 1
+
+    if (n%8==0)|(num_eights(n)!=0):
+        return pingpong(n-1)
+
+    return pingpong_downside(n-1)-1 """
+
+def pingpong(n):
+    """Return the nth element of the ping-pong sequence.
+
+    >>> pingpong(8)
+    8
+    >>> pingpong(10)
+    6
+    >>> pingpong(15)
+    1
+    >>> pingpong(21)
+    -1
+    >>> pingpong(22)
+    -2
+    >>> pingpong(30)
+    -2
+    >>> pingpong(68)
+    0
+    >>> pingpong(69)
+    -1
+    >>> pingpong(80)
+    0
+    >>> pingpong(81)
+    1
+    >>> pingpong(82)
+    0
+    >>> pingpong(100)
+    -6
+    >>> from construct_check import check
+    >>> # ban assignment statements
+    >>> check(HW_SOURCE_FILE, 'pingpong',
+    ...       ['Assign', 'AnnAssign', 'AugAssign', 'NamedExpr'])
+    True
+    """
+    # helper function, return current direct
+    def helper(x):
+        print('DEBUG:',x)
+        if x==1:
+            return 1
+        if x%8==0 or num_eights(x):
+            print('DEBUG:change direction')
+            return -helper(x-1)
+        return helper(x-1)
+    # base case
+    if n==1:
+        return 1
+    # recursive call
+    return pingpong(n-1)+helper(n-1)
+
+def get_larger_coin(coin):
+    """Returns the next larger coin in order.
+    >>> get_larger_coin(1)
+    5
+    >>> get_larger_coin(5)
+    10
+    >>> get_larger_coin(10)
+    25
+    >>> get_larger_coin(2) # Other values return None
+    """
+    if coin == 1:
+        return 5
+    elif coin == 5:
+        return 10
+    elif coin == 10:
+        return 25
+
+
+def get_smaller_coin(coin):
+    """Returns the next smaller coin in order.
+    >>> get_smaller_coin(25)
+    10
+    >>> get_smaller_coin(10)
+    5
+    >>> get_smaller_coin(5)
+    1
+    >>> get_smaller_coin(2) # Other values return None
+    """
+    if coin == 25:
+        return 10
+    elif coin == 10:
+        return 5
+    elif coin == 5:
+        return 1
+
+
+def count_coins(change):
+    """Return the number of ways to make change using coins of value of 1, 5, 10, 25.
+    >>> count_coins(15)
+    6
+    >>> count_coins(10)
+    4
+    >>> count_coins(20)
+    9
+    >>> count_coins(100) # How many ways to make change for a dollar?
+    242
+    >>> count_coins(200)
+    1463
+    >>> from construct_check import check
+    >>> # ban iteration
+    >>> check(HW_SOURCE_FILE, 'count_coins', ['While', 'For'])
+    True
+    """
+    def mysolution(last,coin):
+        if last==0:
+            print('DEBUG:1')
+            print('DEBUG:----')
+            return 1
+        elif last<0:
+            print('DEBUG:0')
+            print('DEBUG:----')
+            return 0
+        print('DEBUG:',last,coin,last-coin)
+        if coin!=1:
+            return mysolution(last-coin,coin)+mysolution(last,get_smaller_coin(coin))
+        else:
+            return mysolution(last-coin,coin)
+    return mysolution(change,25)

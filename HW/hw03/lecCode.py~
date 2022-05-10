@@ -1,0 +1,8 @@
+def slice(num):
+	return num//10,num%10
+
+def count(num):
+	if num<10:
+		return num
+	besides,last_digit=slice(num)
+	return count(besides)+last_digit
