@@ -1,0 +1,30 @@
+=====================================================================
+Assignment: Lab 5
+OK, version v1.18.1
+=====================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Running tests
+
+---------------------------------------------------------------------
+Doctests for replace_elements
+
+>>> s1 = [1, 2, 3]
+>>> s2 = [5, 4]
+>>> replace_elements(s2, s1)
+>>> s1
+[5, 4, 3]
+>>> s3 = [0, 0, 0, 0, 0]
+>>> replace_elements(s1, s3)
+>>> s3
+[5, 4, 3, 0, 0]
+-- OK! --
+---------------------------------------------------------------------
+Test summary
+    1 test cases passed! No cases failed.
+
+Backup... 0.0% completeBackup... 100% complete
+[31mBackup past deadline by 80 days, 32 minutes, and 12 seconds[0m
+[32mBackup successful for user: are936233544@gmail.com[0m
+[32mURL: https://okpy.org/cal/cs61a/sp22/lab05/backups/JY7RY9[0m
+
