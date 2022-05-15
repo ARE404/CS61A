@@ -1,10 +1,11 @@
 """Typing test implementation"""
 
+from cgitb import small
 from os import stat_result
 from utils import lower, split, remove_punctuation, lines_from_file
 from ucb import main, interact, trace
 from datetime import datetime
-
+from operator import add
 ###########
 # Phase 1 #
 ###########
@@ -30,16 +31,16 @@ def choose(paragraphs, select, k):
     ''
     """
     # BEGIN PROBLEM 1
-    count=0
-    index=0
+    count = 0
+    index = 0
     # print("DEBUG:k:",k)
-    while index<len(paragraphs):
+    while index < len(paragraphs):
         if select(paragraphs[index]):
-            count+=1
-        if count==k+1:
+            count += 1
+        if count == k+1:
             # found enough
             return paragraphs[index]
-        index+=1
+        index += 1
     return ''
     # while 1:
     #     print("DEBUG:count:",count)
@@ -73,25 +74,26 @@ def about(topic):
     """
     assert all([lower(x) == x for x in topic]), 'topics should be lowercase.'
     # BEGIN PROBLEM 2
+
     def selection(paragraph):
         # process paragraph into no-punctuation lower case words list
-        paragraph=remove_punctuation(paragraph)
+        paragraph = remove_punctuation(paragraph)
         # print("DEBUG:paragraph without punctuation:",paragraph)
-        paragraph=lower(paragraph)
-        word_list=split(paragraph)
-        topic_index=0
-        wordlist_index=0
+        paragraph = lower(paragraph)
+        word_list = split(paragraph)
+        topic_index = 0
+        wordlist_index = 0
         # print("DEBUG:",word_list)
         # try find topic
-        while topic_index<len(topic):
+        while topic_index < len(topic):
             # print("DEBUG:",topic_index)
-            while wordlist_index<len(word_list):
+            while wordlist_index < len(word_list):
                 # print("DEBUG:comparision between:",topic[topic_index],word_list[wordlist_index])
-                if topic[topic_index]==word_list[wordlist_index]:
+                if topic[topic_index] == word_list[wordlist_index]:
                     return True
-                wordlist_index+=1
-            wordlist_index=0    # remember to reset the wordlist_index to 0
-            topic_index+=1
+                wordlist_index += 1
+            wordlist_index = 0    # remember to reset the wordlist_index to 0
+            topic_index += 1
         return False
     # return selection
     return selection
@@ -127,25 +129,25 @@ def accuracy(typed, reference):
     # BEGIN PROBLEM 3
     # edge cases, when typed or reference is empty
     # print("DEBUG:",len(typed))
-    if len(typed_words)==0 and len(reference_words)==0:
+    if len(typed_words) == 0 and len(reference_words) == 0:
         return 100.0
-    if len(typed_words)==0 and len(reference_words)!=0:
+    if len(typed_words) == 0 and len(reference_words) != 0:
         return 0.0
-    if len(typed_words)!=0 and len(reference_words)==0:
+    if len(typed_words) != 0 and len(reference_words) == 0:
         return 0.0
 
-    total=len(typed_words)
-    index=0
-    count=0
-    while index<len(typed_words):
+    total = len(typed_words)
+    index = 0
+    count = 0
+    while index < len(typed_words):
         # if reference is shorter than typed, stop counting
-        if index==len(reference_words):
+        if index == len(reference_words):
             # print("DEBUG:break")
             break
-        if typed_words[index]==reference_words[index]:
+        if typed_words[index] == reference_words[index]:
             # print("DEBUG:count add one")
-            count+=1 
-        index+=1
+            count += 1
+        index += 1
     return count*100/total  # don't forget *100
     # END PROBLEM 3
 
@@ -165,7 +167,7 @@ def wpm(typed, elapsed):
     assert elapsed > 0, 'Elapsed time must be positive'
     # BEGIN PROBLEM 4
     # edge case
-    if len(typed)==0:
+    if len(typed) == 0:
         return 0.0
     return (len(typed)/5)/(elapsed/60)
     # END PROBLEM 4
@@ -194,18 +196,19 @@ def autocorrect(typed_word, word_list, diff_function, limit):
     'testing'
     """
     # BEGIN PROBLEM 5
-    index=0
-    insteadword=''
-    insteadword_diff=diff_function(typed_word,word_list[0],limit)+1 # initial diff is important
-    while index<len(word_list):
-        if typed_word==word_list[index]:
+    index = 0
+    insteadword = ''
+    insteadword_diff = diff_function(
+        typed_word, word_list[0], limit)+1  # initial diff is important
+    while index < len(word_list):
+        if typed_word == word_list[index]:
             return typed_word
-        tempdiff=diff_function(typed_word,word_list[index],limit)
-        if tempdiff<insteadword_diff:
-            insteadword=word_list[index]
-            insteadword_diff=tempdiff
-        index+=1
-    if insteadword_diff>limit:
+        tempdiff = diff_function(typed_word, word_list[index], limit)
+        if tempdiff < insteadword_diff:
+            insteadword = word_list[index]
+            insteadword_diff = tempdiff
+        index += 1
+    if insteadword_diff > limit:
         return typed_word
     else:
         return insteadword
@@ -245,25 +248,31 @@ def sphinx_swaps(start, goal, limit):
     #         index+=1
     #     return ''.join(letterlist)
 
+    # already abondon, just use str[1:]
     # return first letter and rest
-    def first_and_rest(str):
-        strlist=list(str)
-        firstletter=strlist[0]
-        reststr=''
-        index=1
-        while index<len(str):
-            reststr+=str[index]
-            index+=1
-        return firstletter,reststr
+    # def first_and_rest(str):
+    #     strlist=list(str)
+    #     firstletter=strlist[0]  # get the first letter
+    #     # get the rest part
+    #     reststr=''
+    #     def newstr(index,reststr,str):
+    #         if len(reststr)==len(str)-1:
+    #             return reststr
+    #         reststr+=str[index]
+    #         return newstr(index+1,reststr,str)
+    #     reststr=newstr(1,reststr,str)
+    #     return firstletter,reststr
 
-    if len(start)==0 or len(goal)==0:
-        return max(len(start),len(goal))
-    start_firstletter,start_rest=first_and_rest(start)
-    goal_firstletter,goal_rest=first_and_rest(goal)
+    # if len(start)==0 or len(goal)==0:
+    if min(len(start), len(goal)) == 0:
+        return max(len(start), len(goal))    # length difference
     # if not equal
-    if start_firstletter!=goal_firstletter:
-        return sphinx_swaps(start_rest,goal_rest,limit)+1
-    return sphinx_swaps(start_rest,goal_rest,limit)
+    if start[0] != goal[0]:
+        limit -= 1
+        if limit < 0:
+            return 1
+        return sphinx_swaps(start[1:], goal[1:], limit)+1
+    return sphinx_swaps(start[1:], goal[1:], limit)
     # END PROBLEM 6
 
 
@@ -284,25 +293,62 @@ def minimum_mewtations(start, goal, limit):
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    assert False, 'Remove this line'
+    # assert False, 'Remove this line'
+    # if start=="sith":
+    #     return 4
 
-    if ______________:  # Fill in the condition
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+    # if start=="jeans":
+    #     return 3
 
-    elif ___________:  # Feel free to remove or add additional cases
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+    if start == goal:
+        return 0
 
-    else:
-        add = ...  # Fill in these lines
-        remove = ...
-        substitute = ...
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+    if limit == 0:
+        return 1
+
+    # if goal.count(start)==1:
+    #     return len(goal)-len(start)
+
+    # if start in goal:
+    #     return len(goal)-len(start)
+
+    # if goal in start:
+    #     return len(start)-len(goal)
+
+    # add tail
+    if min(len(start), len(goal)) == 0:
+        return max(len(start), len(goal))
+
+    if len(start) == 1 and len(goal) == 1:
+        return 1
+
+    if start[0] == goal[0]:
+        return minimum_mewtations(start[1:], goal[1:], limit)
+    # elif len(start)>1 and len(goal)>1 and start[1]==goal[1]: # substitution
+    #     print("DEBUG:sub")
+    #     return minimum_mewtations(start[1:],goal[1:],limit-1)+1
+    # elif len(start)>1 and start[1]==goal[0]: # remove
+    #     print("DEBUG:remove")
+    #     return minimum_mewtations(start[1:],goal,limit-1)+1
+    # elif len(goal)>1 and start[0]==goal[1]: # add
+    #     print("DEBUG:add")
+    #     return minimum_mewtations(start,goal[1:],limit-1)+1
+    # else:
+    #     #35 59
+    #     print("DEBUG:else")
+    #     return minimum_mewtations(start[1:],goal[1:],limit-1)+1
+
+    # print("DEBUG:no result")
+    # return 0
+
+    # for _ in range(3):
+    # [x+1 for x in list0 if x % 5 == 0]
+    # def divisor(n):
+    #   return [1]+[x for x in range(2,n) if n % x == 0]
+    add = minimum_mewtations(start, goal[1:], limit-1)
+    remove = minimum_mewtations(start[1:], goal, limit-1)
+    substitute = minimum_mewtations(start[1:], goal[1:], limit-1)
+    return min(add, remove, substitute)+1
 
 
 def final_diff(start, goal, limit):
@@ -343,7 +389,19 @@ def report_progress(sofar, prompt, user_id, upload):
     0.2
     """
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    # count til the first wrong word
+    index = 0
+    count = 0
+    # don't forget to check index first
+    while index < len(sofar) and sofar[index] == prompt[index]:
+        count += 1
+        index += 1
+    # compute ratio
+    progress = count/len(prompt)
+    # use upload function
+    upload({'id': user_id, 'progress': progress})
+    # return ratio
+    return progress
     # END PROBLEM 8
 
 
@@ -365,7 +423,21 @@ def time_per_word(words, times_per_player):
     [[6, 3, 6, 2], [10, 6, 1, 2]]
     """
     # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
+    # compute time
+    for timesperplayer in times_per_player:
+        index = 0
+        while index+1 < len(timesperplayer):
+            timesperplayer[index] = timesperplayer[index+1] - \
+                timesperplayer[index]
+            index += 1
+        # remove last item
+        # don't know why this method doesn't work
+        # timesperplayer=timesperplayer[:(len(timesperplayer)-1)]
+        print("DEBUG:", type(timesperplayer))
+        timesperplayer.pop()
+
+    # return a dictionary
+    return match(words, times_per_player)
     # END PROBLEM 9
 
 
@@ -384,10 +456,51 @@ def fastest_words(match):
     >>> p1
     [4, 1, 6]
     """
-    player_indices = range(len(match["times"]))  # contains an *index* for each player
-    word_indices = range(len(match["words"]))    # contains an *index* for each word
+    player_indices = range(
+        len(match["times"]))  # contains an *index* for each player
+    # contains an *index* for each word
+    word_indices = range(len(match["words"]))
     # BEGIN PROBLEM 10
-    "*** YOUR CODE HERE ***"
+    # make an 2d list
+    # outputlist = []
+    # for x in player_indices:
+    #     outputlist.append([])
+    # # for every word in word list
+    # for wordindex in word_indices:
+    #     # initialize index need add word on
+    #     newindex = match["times"][0][wordindex]
+    #     for playerindex in player_indices:
+    #         if match["times"][playerindex][wordindex] < newindex:
+    #             newindex = playerindex
+    #     outputlist[newindex].append(word_at(match, wordindex))
+    # return outputlist
+
+    # make a list contains fastest player'index for every word in order
+    fastestplayerlist=[]
+    for wi in word_indices:
+        # let the smallest be the first player's time 
+        smallest_player=0
+        print("DEBUG:initial smallest_player",smallest_player)
+        for pi in player_indices:
+            print("DEBUG:pi",pi)
+            # smallest_player can't be zero
+            if match["times"][pi][wi] < match["times"][smallest_player][wi]:
+                smallest_player=pi
+                print("DEBUG:change smallest_player to",smallest_player)
+        fastestplayerlist.append(smallest_player)
+    
+    print("DEBUG:fastestplayerlist",fastestplayerlist)
+
+    outputlist=[]
+    for p in player_indices:
+        aplist=[]
+        for index,t in enumerate(fastestplayerlist):
+            if p==t:
+                aplist.append(match["words"][index])
+        print("DEBUG:aplist",aplist)
+        outputlist.append(aplist)
+
+    return outputlist
     # END PROBLEM 10
 
 
@@ -404,23 +517,29 @@ def match(words, times):
         words: ['Hello', 'world']
         times: [[5, 1], [4, 2]]
     """
-    assert all([type(w) == str for w in words]), 'words should be a list of strings'
-    assert all([type(t) == list for t in times]), 'times should be a list of lists'
-    assert all([isinstance(i, (int, float)) for t in times for i in t]), 'times lists should contain numbers'
-    assert all([len(t) == len(words) for t in times]), 'There should be one word per time.'
+    assert all([type(w) == str for w in words]
+               ), 'words should be a list of strings'
+    assert all([type(t) == list for t in times]
+               ), 'times should be a list of lists'
+    assert all([isinstance(i, (int, float))
+               for t in times for i in t]), 'times lists should contain numbers'
+    assert all([len(t) == len(words) for t in times]
+               ), 'There should be one word per time.'
     return {"words": words, "times": times}
 
 
 def word_at(match, word_index):
     """A utility function that gets the word with index word_index"""
-    assert 0 <= word_index < len(match["words"]), "word_index out of range of words"
+    assert 0 <= word_index < len(
+        match["words"]), "word_index out of range of words"
     return match["words"][word_index]
 
 
 def time(match, player_num, word_index):
     """A utility function for the time it took player_num to type the word at word_index"""
     assert word_index < len(match["words"]), "word_index out of range of words"
-    assert player_num < len(match["times"]), "player_num out of range of players"
+    assert player_num < len(
+        match["times"]), "player_num out of range of players"
     return match["times"][player_num][word_index]
 
 
@@ -439,7 +558,7 @@ enable_multiplayer = False  # Change to True when you're ready to race.
 def run_typing_test(topics):
     """Measure typing speed and accuracy on the command line."""
     paragraphs = lines_from_file('data/sample_paragraphs.txt')
-    select = lambda p: True
+    def select(p): return True
     if topics:
         select = about(topics)
     i = 0
