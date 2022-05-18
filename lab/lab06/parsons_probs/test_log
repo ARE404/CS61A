@@ -1,0 +1,35 @@
+=====================================================================
+Assignment: Lab 6
+OK, version v1.18.1
+=====================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Running tests
+
+---------------------------------------------------------------------
+Doctests for NoisyCat
+
+>>> my_cat = NoisyCat("Furball", "James")
+>>> my_cat.name
+'Furball'
+>>> my_cat.is_alive
+True
+>>> my_cat.lives
+8
+>>> my_cat.talk()
+'Furball says meow! Furball says meow!'
+>>> friend_cat = NoisyCat("Tabby", "James", 2)
+>>> friend_cat.talk()
+'Tabby says meow! Tabby says meow!'
+>>> friend_cat.lives
+1
+-- OK! --
+---------------------------------------------------------------------
+Test summary
+    1 test cases passed! No cases failed.
+
+Backup... 0.0% completeBackup... 100% complete
+[31mBackup past deadline by 74 days, 18 hours, 41 minutes, and 54 seconds[0m
+[32mBackup successful for user: are936233544@gmail.com[0m
+[32mURL: https://okpy.org/cal/cs61a/sp22/lab06/backups/kwONJK[0m
+
